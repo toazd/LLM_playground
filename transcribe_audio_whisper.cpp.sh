@@ -57,6 +57,9 @@ mkdir -p "$OUTPUT_PATH"
 # Find all audio files in input path (recursively)
 for file in "$INPUT_PATH"/**/*.*; do
 
+    # if $file is a directory, skip it
+    [[ -d "$file" ]] && continue
+
     # Extract relative path from input to file
     # deepseek wanted to use the commented out command
     # which is overkill computationally for a task that
