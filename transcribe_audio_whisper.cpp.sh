@@ -44,7 +44,7 @@
 #   the script to use that instead of whisper.
 
 shopt -s globstar # needed for bash's built in directory recursion
-shopt -s dotglob  # probably not needed but it doesn't hurt
+set -e
 
 # Configure paths and settings
 INPUT_PATH="/home/wmcdannell/Documents/Bible Study/Sermons"
@@ -73,7 +73,7 @@ for file in "$INPUT_PATH"/**/*.*; do
 
     # Extract filename without extension
     FILENAME=$(basename "$file")
-    EXTENSION="${FILENAME##*.}"
+    #EXTENSION="${FILENAME##*.}"
     BASENAME="${FILENAME%.*}"
 
     # Create new folder in output path with the same name as the audio file
@@ -85,7 +85,13 @@ for file in "$INPUT_PATH"/**/*.*; do
 
     # put a copy of the original in the new folder if it doesn't exist
     # if you don't want this simply comment out the next line
-    [[ ! -e "$NEW_FOLDER/$new_file" ]] && cp -v "$file" "$NEW_FOLDER"
+    if [[ ! -e "$NEW_FOLDER/$new_file" ]]; then
+        cp -fv "$file" "$NEW_FOLDER"
+    else
+        # if it does exist, make sure they are the same
+        # and if they are not the same, make a new copy
+        [[ ! $(cmp -s "$file" "$NEW_FOLDER/$new_file") ]] && cp -fv "$file" "$NEW_FOLDER"
+    fi
 
     # construct the new file name without the extension using bash parameter expansion
     new_file_wo_ext="$NEW_FOLDER/${new_file%.*}"
