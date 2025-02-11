@@ -115,7 +115,7 @@ for file in "$INPUT_PATH"/**/*.*; do
         --language en \
         --temperature 0 \
         --temperature-inc 0 \
-        --no-speech-thold 0.8 \
+        --no-speech-thold 0.75 \
         --no-fallback \
         --max-context 0 \
         --print-progress \
