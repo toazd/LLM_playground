@@ -47,9 +47,9 @@ shopt -s globstar # needed for bash's built in directory recursion
 set -e
 
 # Configure paths and settings
-INPUT_PATH="/home/wmcdannell/Documents/Bible Study/Sermons"
-WHISPER_MODEL="ggml-large-v3-turbo.bin"
-OUTPUT_PATH="/home/wmcdannell/Audio transcribing/output/ggml-large-v3-turbo"
+INPUT_PATH=""
+WHISPER_MODEL="ggml-small.en.bin"
+OUTPUT_PATH=""
 
 # Ensure output directory exists
 mkdir -p "$OUTPUT_PATH"
@@ -114,6 +114,10 @@ for file in "$INPUT_PATH"/**/*.*; do
         --model "$WHISPER_MODEL" \
         --language en \
         --temperature 0 \
+        --temperature-inc 0 \
+        --no-speech-thold 0.8 \
+        --no-fallback \
+        --max-context 0 \
         --print-progress \
         --output-txt \
         --output-vtt \
@@ -132,5 +136,3 @@ for file in "$INPUT_PATH"/**/*.*; do
         exit $exit_status
     }
 done
-
-echo "Processing complete."
