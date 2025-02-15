@@ -47,9 +47,15 @@ shopt -s globstar # needed for bash's built in directory recursion
 set -e
 
 # Configure paths and settings
-INPUT_PATH=""
-WHISPER_MODEL="ggml-small.en.bin"
-OUTPUT_PATH=""
+INPUT_PATH="/home/wmcdannell/Documents/Bible Study/Sermons"
+#INPUT_PATH="/home/wmcdannell/Audio transcribing/testing/input"
+
+#WHISPER_MODEL="ggml-large-v3-turbo.bin"
+WHISPER_MODEL="/home/wmcdannell/Audio transcribing/ggml-small.en.bin"
+
+#OUTPUT_PATH="/home/wmcdannell/Audio transcribing/output/ggml-large-v3-turbo"
+#OUTPUT_PATH="/home/wmcdannell/Audio transcribing/testing/output"
+OUTPUT_PATH="/home/wmcdannell/Audio transcribing/output/small.en"
 
 # Ensure output directory exists
 mkdir -p "$OUTPUT_PATH"
@@ -90,7 +96,11 @@ for file in "$INPUT_PATH"/**/*.*; do
     else
         # if it does exist, make sure they are the same
         # and if they are not the same, make a new copy
-        [[ ! $(cmp -s "$file" "$NEW_FOLDER/$new_file") ]] && cp -fv "$file" "$NEW_FOLDER"
+        echo "Checking copy integrity for $new_file"
+        [[ $(cmp -s "$file" "$NEW_FOLDER/$new_file") ]] && {
+            echo "Copy integrity check failed for $new_file"
+            cp -fv "$file" "$NEW_FOLDER"
+        }
     fi
 
     # construct the new file name without the extension using bash parameter expansion
@@ -98,7 +108,7 @@ for file in "$INPUT_PATH"/**/*.*; do
 
     # if the new file was already transcribed skip this one
     [[ -e "${new_file_wo_ext}.wav" && -e "${new_file_wo_ext}.wav.txt" ]] && {
-        echo "Skipping $NEW_FOLDER/${new_file%.*}.wav"
+        echo "Skipping ${new_file%.*}"
         continue
     }
 
@@ -115,7 +125,6 @@ for file in "$INPUT_PATH"/**/*.*; do
         --language en \
         --temperature 0 \
         --temperature-inc 0 \
-        --no-speech-thold 0.75 \
         --no-fallback \
         --max-context 0 \
         --print-progress \
