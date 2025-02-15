@@ -47,15 +47,9 @@ shopt -s globstar # needed for bash's built in directory recursion
 set -e
 
 # Configure paths and settings
-INPUT_PATH="/home/wmcdannell/Documents/Bible Study/Sermons"
-#INPUT_PATH="/home/wmcdannell/Audio transcribing/testing/input"
-
-#WHISPER_MODEL="ggml-large-v3-turbo.bin"
-WHISPER_MODEL="/home/wmcdannell/Audio transcribing/ggml-small.en.bin"
-
-#OUTPUT_PATH="/home/wmcdannell/Audio transcribing/output/ggml-large-v3-turbo"
-#OUTPUT_PATH="/home/wmcdannell/Audio transcribing/testing/output"
-OUTPUT_PATH="/home/wmcdannell/Audio transcribing/output/small.en"
+INPUT_PATH=""
+WHISPER_MODEL="ggml-small.en.bin"
+OUTPUT_PATH=""
 
 # Ensure output directory exists
 mkdir -p "$OUTPUT_PATH"
