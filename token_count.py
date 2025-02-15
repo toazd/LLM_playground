@@ -1,7 +1,10 @@
-# mkdir token_count && cd token_count && python -m venv venv && source venv/bin/activate
+# quick install and compile instructions:
+#
+# mkdir token_count && cd token_count && wget https://raw.githubusercontent.com/toazd/LLM_playground/refs/heads/main/token_count.py && python -m venv venv && source venv/bin/activate
 # pip install tiktoken PyPDF2 chardet pyinstaller
 # pyinstaller --hidden-import=tiktoken_ext.openai_public --hidden-import=tiktoken_ext --onefile token_count.py
 # compiled token_count will be in dist/
+#
 
 import tiktoken
 from PyPDF2 import PdfReader
